@@ -16,6 +16,7 @@
 		708D63B8200947570092307A /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D63B7200947570092307A /* RestClient.swift */; };
 		708D63BA20094F210092307A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D63B920094F210092307A /* Parser.swift */; };
 		70B7F9E62009573100EE8393 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B7F9E52009573100EE8393 /* Models.swift */; };
+		70B7F9E82009737D00EE8393 /* Datasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B7F9E72009737D00EE8393 /* Datasource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		708D63B7200947570092307A /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
 		708D63B920094F210092307A /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		70B7F9E52009573100EE8393 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		70B7F9E72009737D00EE8393 /* Datasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datasource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				708D63B7200947570092307A /* RestClient.swift */,
 				708D63B920094F210092307A /* Parser.swift */,
 				70B7F9E52009573100EE8393 /* Models.swift */,
+				70B7F9E72009737D00EE8393 /* Datasource.swift */,
 			);
 			path = "weather-code-test";
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70B7F9E82009737D00EE8393 /* Datasource.swift in Sources */,
 				708D63BA20094F210092307A /* Parser.swift in Sources */,
 				708D639A2009440A0092307A /* ViewController.swift in Sources */,
 				708D63B8200947570092307A /* RestClient.swift in Sources */,
