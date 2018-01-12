@@ -47,14 +47,14 @@ struct RestClient {
             }
             
             guard
-                let unwrappedData = data/*,
-                let results = try? self.parser.parseData(data: unwrappedData)
-                */else {
+                let unwrappedData = data,
+                let result = try? self.parser.parseData(data: unwrappedData)
+                else {
                     completion((nil, RestClientError.NoData))
                     return
             }
             
-            completion((unwrappedData, nil))
+            completion((result, nil))
         }
         task.resume()
         
@@ -94,7 +94,7 @@ struct RestClient {
             return nil
         }
         
-        return self.apiURL + encodedString + "&APPID=" + Keys.AppID.rawValue
+        return self.apiURL + encodedString + "&units=imperial&APPID=" + Keys.AppID.rawValue
     }
     
     private func urlForString(urlString: String) -> URL? {

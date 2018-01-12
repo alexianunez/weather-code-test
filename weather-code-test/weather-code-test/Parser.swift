@@ -8,6 +8,23 @@
 
 import Foundation
 
+enum ParserError: Error {
+    case MalformedData
+    case NoData
+}
+
 struct Parser {
     
+    func parseData(data: Data) throws -> Any? {
+        
+        guard
+            let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
+            let jsonDict = json as? [String: AnyObject],
+            let cityData = City(jsonData: jsonDict)
+            else {
+                throw ParserError.MalformedData
+        }
+        
+        return cityData
+    }
 }
