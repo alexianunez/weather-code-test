@@ -11,6 +11,15 @@ import Foundation
 enum DatasourceError: Error {
     case EmptyString
     case NoData
+    
+    var localizedDescription: String {
+        switch self {
+        case .EmptyString:
+            return "Search query is empty. Please try with a larger search query."
+        case .NoData:
+            return "There was no data available. Please try again later."
+        }
+    }
 }
 
 typealias DatasourceResponse = (City?, Error?)

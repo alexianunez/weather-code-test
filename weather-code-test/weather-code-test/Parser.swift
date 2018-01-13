@@ -11,6 +11,15 @@ import Foundation
 enum ParserError: Error {
     case MalformedData
     case NoData
+    
+    var localizedDescription: String {
+        switch self {
+        case .MalformedData:
+            return "There was an error processing the data. Please try again."
+        case .NoData:
+            return "There was no data to process. Please try again."
+        }
+    }
 }
 
 struct Parser {
