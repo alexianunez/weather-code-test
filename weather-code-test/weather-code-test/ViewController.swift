@@ -23,14 +23,7 @@ class ViewController: UIViewController {
         if let lastCitySearched = datasource.retrieveLastSearch() {
             searchBar.text = lastCitySearched
             datasource.fetchData(searchTerm: lastCitySearched) { [weak self] (dataResponse) in
-                guard
-                    dataResponse.1 == nil,
-                    let city = dataResponse.0
-                    else {
-                        self?.showErrorLabel(message: dataResponse.1?.localizedDescription ?? "No data available. Please try again")
-                        return
-                }
-                self?.populateUI(city: city)
+                self?.processDatasourceResponse(response: dataResponse)
             }
         }
     }
@@ -58,18 +51,24 @@ private extension ViewController {
     func fetchData(searchTerm: String) {
         
         clearCityInfoText()
+        iconImageView.image = nil
         
         datasource.fetchData(searchTerm: searchTerm) { [weak self] (dataResponse) in
-            guard
-                dataResponse.1 == nil,
-                let city = dataResponse.0
-                else {
-                    self?.showErrorLabel(message: dataResponse.1?.localizedDescription ?? "No data available. Please try again")
-                    return
-            }
-            self?.populateUI(city: city)
+            self?.processDatasourceResponse(response: dataResponse)
         }
     }
+    
+    func processDatasourceResponse(response: DatasourceResponse) {
+        guard
+            response.1 == nil,
+            let city = response.0
+            else {
+                showErrorLabel(message: response.1?.localizedDescription ?? "No data available. Please try again")
+                return
+        }
+        populateUI(city: city)
+    }
+    
     func populateUI(city: City) {
         DispatchQueue.main.async { [weak self] in
             self?.cityInfoLabel.text = self?.createCityInfoText(city: city)
