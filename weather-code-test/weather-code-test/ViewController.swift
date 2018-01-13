@@ -17,6 +17,23 @@ class ViewController: UIViewController {
     @IBOutlet weak var iconImageView: UIImageView!
     
     fileprivate let datasource: Datasource = Datasource()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let lastCitySearched = datasource.retrieveLastSearch() {
+            searchBar.text = lastCitySearched
+            datasource.fetchData(searchTerm: lastCitySearched) { [weak self] (dataResponse) in
+                guard
+                    dataResponse.1 == nil,
+                    let city = dataResponse.0
+                    else {
+                        self?.showErrorLabel(message: dataResponse.1?.localizedDescription ?? "No data available. Please try again")
+                        return
+                }
+                self?.populateUI(city: city)
+            }
+        }
+    }
 
 }
 

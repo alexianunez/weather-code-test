@@ -28,6 +28,7 @@ typealias DatasourceResponse = (City?, Error?)
 struct Datasource {
     
     private let restClient = RestClient()
+    internal let cityKey = "cityKey"
     
     func fetchData(searchTerm: String, completion: @escaping (DatasourceResponse) -> ()) -> Void {
         guard searchTerm.count > 0
@@ -46,6 +47,7 @@ struct Datasource {
                     completion((nil, DatasourceError.NoData))
                     return
             }
+            self.persistLastSearch(city: city)
             completion((city, nil))
         }
         
@@ -64,6 +66,14 @@ struct Datasource {
             completion(img)
         }
         
+    }
+    
+    func persistLastSearch(city: City) {
+        UserDefaults.standard.set(city.name, forKey: cityKey)
+    }
+    
+    func retrieveLastSearch() -> String? {
+        return UserDefaults.standard.string(forKey: cityKey)
     }
     
 }
