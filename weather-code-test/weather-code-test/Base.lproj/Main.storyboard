@@ -25,37 +25,62 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <searchBar contentMode="redraw" placeholder="Enter the name of a city" translatesAutoresizingMaskIntoConstraints="NO" id="dnA-Ri-1oh">
-                                <rect key="frame" x="0.0" y="64" width="375" height="56"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="msY-3a-bTy"/>
+                                </constraints>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="dHO-u6-eOa"/>
                                 </connections>
                             </searchBar>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rdl-NE-FZh">
-                                <rect key="frame" x="20" y="170" width="335" height="447"/>
-                                <color key="backgroundColor" red="0.12549020350000001" green="0.66666668650000005" blue="0.66666668650000005" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BmJ-k3-e9d">
+                                <rect key="frame" x="50" y="164" width="275" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7NM-8i-Pmm">
+                                <rect key="frame" x="275" y="174" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="GsA-U5-03C"/>
+                                    <constraint firstAttribute="height" constant="50" id="ucO-8E-VRR"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6a-4O-ic1">
+                                <rect key="frame" x="50" y="174" width="215" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="N48-uq-rF2" secondAttribute="trailing" id="1xH-2X-BF5"/>
+                            <constraint firstItem="7NM-8i-Pmm" firstAttribute="trailing" secondItem="BmJ-k3-e9d" secondAttribute="trailing" id="6MG-iR-8kT"/>
+                            <constraint firstItem="7NM-8i-Pmm" firstAttribute="top" secondItem="BmJ-k3-e9d" secondAttribute="bottom" constant="10" id="7FH-P0-Exz"/>
                             <constraint firstItem="N48-uq-rF2" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="8l3-Ay-Svk"/>
-                            <constraint firstItem="rdl-NE-FZh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="9jc-IR-tun"/>
                             <constraint firstItem="dnA-Ri-1oh" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="CZJ-uX-ebl"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="rdl-NE-FZh" secondAttribute="bottom" constant="50" id="LuI-Fe-PCx"/>
+                            <constraint firstItem="R6a-4O-ic1" firstAttribute="top" secondItem="BmJ-k3-e9d" secondAttribute="bottom" constant="10" id="IOD-2N-fpG"/>
+                            <constraint firstItem="BmJ-k3-e9d" firstAttribute="top" secondItem="dnA-Ri-1oh" secondAttribute="bottom" constant="50" id="Pmx-15-gap"/>
                             <constraint firstItem="dnA-Ri-1oh" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="QiC-gV-PgA"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="rdl-NE-FZh" secondAttribute="trailing" constant="20" id="QjY-yw-3Ck"/>
                             <constraint firstItem="dnA-Ri-1oh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="SUM-HR-9wk"/>
-                            <constraint firstItem="rdl-NE-FZh" firstAttribute="top" secondItem="dnA-Ri-1oh" secondAttribute="bottom" constant="50" id="ShD-u0-g0l"/>
                             <constraint firstItem="N48-uq-rF2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Tjt-3a-4bQ"/>
                             <constraint firstItem="N48-uq-rF2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ckc-JO-5NN"/>
+                            <constraint firstItem="BmJ-k3-e9d" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="kgt-IJ-3EX"/>
+                            <constraint firstItem="7NM-8i-Pmm" firstAttribute="leading" secondItem="R6a-4O-ic1" secondAttribute="trailing" constant="10" id="mvv-8u-Y6c"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="BmJ-k3-e9d" secondAttribute="trailing" constant="50" id="nGx-ai-L5N"/>
+                            <constraint firstItem="R6a-4O-ic1" firstAttribute="leading" secondItem="BmJ-k3-e9d" secondAttribute="leading" id="pF5-q1-eJ4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="City Weather Search" id="EoI-pv-md5"/>
                     <connections>
+                        <outlet property="cityInfoLabel" destination="BmJ-k3-e9d" id="pVq-uY-Ock"/>
                         <outlet property="errorLabel" destination="N48-uq-rF2" id="a3U-Mb-iLz"/>
+                        <outlet property="iconImageView" destination="7NM-8i-Pmm" id="EcZ-wK-99O"/>
                         <outlet property="searchBar" destination="dnA-Ri-1oh" id="KED-cp-t2k"/>
+                        <outlet property="temperatureLabel" destination="R6a-4O-ic1" id="MfT-Kl-1yA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum DatasourceError: Error {
     case EmptyString
@@ -46,6 +47,21 @@ struct Datasource {
                     return
             }
             completion((city, nil))
+        }
+        
+    }
+    
+    func fetchCityImage(imgName: String, completion: @escaping (UIImage?) -> ()) {
+        
+        let imgUrl = "https://openweathermap.org/img/w/\(imgName).png"
+        
+        restClient.fetchImageData(urlString: imgUrl) { (response) in
+            guard response.1 == nil, let imgData = response.0 as? Data, let img = UIImage(data: imgData)
+                else {
+                    completion(nil)
+                    return
+            }
+            completion(img)
         }
         
     }

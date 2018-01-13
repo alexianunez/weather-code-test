@@ -12,22 +12,11 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var cityInfoLabel: UILabel!
+    @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var iconImageView: UIImageView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //fetchData()
-    }
+    fileprivate let datasource: Datasource = Datasource()
 
 }
 
@@ -51,7 +40,7 @@ private extension ViewController {
     
     func fetchData(searchTerm: String) {
         
-        let datasource: Datasource = Datasource()
+        clearCityInfoText()
         
         datasource.fetchData(searchTerm: searchTerm) { [weak self] (dataResponse) in
             guard
@@ -61,17 +50,20 @@ private extension ViewController {
                     self?.showErrorLabel(message: dataResponse.1?.localizedDescription ?? "No data available. Please try again")
                     return
             }
-            
             self?.populateUI(city: city)
-            
         }
-        
     }
     func populateUI(city: City) {
         DispatchQueue.main.async { [weak self] in
-            self?.errorLabel.text = city.name
-            self?.errorLabel.isHidden = false
-
+            self?.cityInfoLabel.text = self?.createCityInfoText(city: city)
+            self?.temperatureLabel.text = self?.createTemperatureText(city: city)
+            self?.fetchWeatherImage(city: city, completion: { (image) in
+                if let img = image {
+                    DispatchQueue.main.async {
+                        self?.iconImageView.image = img
+                    }
+                }
+            })
         }
     }
     
@@ -85,6 +77,45 @@ private extension ViewController {
     func hideErrorLabel() {
         DispatchQueue.main.async { [weak self] in
             self?.errorLabel.isHidden = true
+        }
+    }
+    
+    func clearCityInfoText() {
+        DispatchQueue.main.async { [weak self] in
+            self?.cityInfoLabel.text = ""
+            self?.temperatureLabel.text = ""
+        }
+    }
+    
+    func createCityInfoText(city: City) -> String {
+        
+        var bodyText: String = "\(city.name)\n"
+        bodyText.append("Current temperature: \(city.secondaryWeather.currentTemperature)\n\n")
+        bodyText.append("High: \(city.secondaryWeather.highTemperature)\n")
+        bodyText.append("Low: \(city.secondaryWeather.lowTemperature)\n")
+        bodyText.append("Humidity: \(city.secondaryWeather.humidity)%")
+        
+        return bodyText
+    }
+    
+    func createTemperatureText(city: City) -> String? {
+        guard let weather = city.weather.first else {
+            return nil
+        }
+        var tempText: String = "Currently: \(weather.shortDesc)\n"
+        tempText.append("\(weather.detailDesc)")
+        
+        return tempText
+    }
+    
+    func fetchWeatherImage(city: City, completion: @escaping (UIImage?)->())  {
+        guard let weatherData = city.weather.first else {
+            completion(nil)
+            return
+        }
+        datasource.fetchCityImage(imgName: weatherData.icon) { (image) in
+            completion(image)
+            return
         }
     }
 }
