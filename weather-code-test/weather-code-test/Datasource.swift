@@ -9,11 +9,11 @@
 import Foundation
 import UIKit
 
-enum DatasourceError: Error {
+enum DatasourceError: Error, CustomStringConvertible {
     case EmptyString
     case NoData
     
-    var localizedDescription: String {
+    var description: String {
         switch self {
         case .EmptyString:
             return "Search query is empty. Please try with a larger search query."
