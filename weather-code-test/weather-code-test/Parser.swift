@@ -8,11 +8,11 @@
 
 import Foundation
 
-enum ParserError: Error {
+enum ParserError: Error, CustomStringConvertible {
     case MalformedData
     case NoData
     
-    var localizedDescription: String {
+    var description: String {
         switch self {
         case .MalformedData:
             return "There was an error processing the data. Please try again."

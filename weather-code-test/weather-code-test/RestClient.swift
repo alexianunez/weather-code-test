@@ -8,12 +8,20 @@
 
 typealias RestResponse = (Any?, Error?)
 
-enum RestClientError: Error {
-    case InvalidURL
+enum RestClientError: Error, CustomStringConvertible{
+    case InvalidURL(String)
     case UnknownError
-    case APIError(String)
+    case APIError(Error)
     case NoData
-    // TODO: Add human readable error strings
+    
+    var description: String {
+        switch self {
+        case .InvalidURL(let urlString): return "The URL \(urlString) was invalid."
+        case .UnknownError: return "There was an unknown error."
+        case .NoData: return "There was no data returned from the request."
+        case .APIError(let error): return "The API returned an error: \(error)"
+        }
+    }
     
 }
 
@@ -33,7 +41,7 @@ struct RestClient {
         guard
             let fullURL = self.fullAPIURLString(searchTerm: searchTerm),
             let url: URL = self.urlForString(urlString: fullURL) else {
-            completion((nil, RestClientError.InvalidURL))
+            completion((nil, RestClientError.InvalidURL(searchTerm)))
             return
         }
         
@@ -42,7 +50,7 @@ struct RestClient {
         let task = session.dataTask(with: url) { (data, response, error) in
             
             if let unwrappedError = error, let unwrappedResponse = response as? HTTPURLResponse, unwrappedResponse.statusCode != 200 {
-                completion((nil, RestClientError.APIError(unwrappedError.localizedDescription)))
+                completion((nil, RestClientError.APIError(unwrappedError)))
                 return
             }
             
@@ -63,7 +71,7 @@ struct RestClient {
     func fetchImageData(urlString: String, completion: @escaping (RestResponse) -> ()) -> Void {
         
         guard let url: URL = self.urlForString(urlString: urlString) else {
-            completion((nil, RestClientError.InvalidURL))
+            completion((nil, RestClientError.InvalidURL(urlString)))
             return
         }
         

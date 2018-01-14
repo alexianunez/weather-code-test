@@ -51,6 +51,7 @@ private extension ViewController {
     func fetchData(searchTerm: String) {
         
         clearCityInfoText()
+        hideErrorLabel()
         iconImageView.image = nil
         
         datasource.fetchData(searchTerm: searchTerm) { [weak self] (dataResponse) in
