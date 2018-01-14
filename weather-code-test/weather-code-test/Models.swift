@@ -24,7 +24,7 @@ struct City {
     
     let name: String
     let id: Int
-    let visibility: Int
+    var visibility: Int?
     var weather: [Weather] = []
     let secondaryWeather: SecondaryWeather
     
@@ -32,7 +32,6 @@ struct City {
         guard
             let cityName = jsonData[Keys.name.rawValue] as? String,
             let cityId = jsonData[Keys.id.rawValue] as? Int,
-            let cityVisibility = jsonData[Keys.visibility.rawValue] as? Int,
             let weatherJson = jsonData[Keys.weather.rawValue] as? [[String: Any]],
             let secondaryWeatherJson = jsonData[Keys.main.rawValue] as? [String: Any],
             let secondaryWeather = SecondaryWeather(jsonData: secondaryWeatherJson)
@@ -41,8 +40,11 @@ struct City {
         }
         self.name = cityName
         self.id = cityId
-        self.visibility = cityVisibility
         self.secondaryWeather = secondaryWeather
+        
+        if let v = jsonData[Keys.visibility.rawValue] as? Int {
+            self.visibility = v
+        }
         
         let _ = weatherJson.map { (weatherInfo) in
             if let weatherStruct = Weather(jsonData: weatherInfo) {

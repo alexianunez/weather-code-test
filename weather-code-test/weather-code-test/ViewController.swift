@@ -110,7 +110,9 @@ private extension ViewController {
         bodyText.append("Current temperature: \(city.secondaryWeather.currentTemperature)\n\n")
         bodyText.append("High: \(city.secondaryWeather.highTemperature)\n")
         bodyText.append("Low: \(city.secondaryWeather.lowTemperature)\n")
-        bodyText.append("Humidity: \(city.secondaryWeather.humidity)%")
+        if let v = city.visibility {
+            bodyText.append("Humidity: \(v)%")
+        }
         
         return bodyText
     }
