@@ -8,11 +8,29 @@
 
 import Foundation
 
-struct APIWrapper {
-    
+struct City {
+    let name: String
+    let id: Int
+    var visibility: Int?
+    var weather: [Weather] = []
+    let secondaryWeather: SecondaryWeather
 }
 
-struct City {
+struct Weather {
+    let id: Int
+    let shortDesc: String
+    let detailDesc: String
+    let icon: String
+}
+
+struct SecondaryWeather {
+    let humidity: Int
+    let currentTemperature: Float
+    let lowTemperature: Float
+    let highTemperature: Float
+}
+
+extension City {
     
     private enum Keys: String {
         case name
@@ -21,12 +39,6 @@ struct City {
         case visibility
         case main
     }
-    
-    let name: String
-    let id: Int
-    var visibility: Int?
-    var weather: [Weather] = []
-    let secondaryWeather: SecondaryWeather
     
     init?(jsonData: [String: Any]) {
         guard
@@ -55,7 +67,7 @@ struct City {
     
 }
 
-struct Weather {
+extension Weather {
 
     private enum Keys: String {
         case weather
@@ -65,11 +77,6 @@ struct Weather {
         case detailDesc = "description"
         case icon
     }
-
-    let id: Int
-    let shortDesc: String
-    let detailDesc: String
-    let icon: String
 
     init?(jsonData: [String: Any]) {
         guard
@@ -87,7 +94,7 @@ struct Weather {
     }
 }
 
-struct SecondaryWeather {
+extension SecondaryWeather {
     
     private enum Keys: String {
         case humidity
@@ -95,11 +102,6 @@ struct SecondaryWeather {
         case lowTemperature = "temp_min"
         case highTemperature = "temp_max"
     }
-    
-    let humidity: Int
-    let currentTemperature: Float
-    let lowTemperature: Float
-    let highTemperature: Float
     
     init?(jsonData: [String: Any]) {
         guard
