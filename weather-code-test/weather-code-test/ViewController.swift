@@ -104,6 +104,10 @@ private extension ViewController {
         }
     }
     
+}
+
+private extension ViewController {
+    
     func createCityInfoText(city: City) -> String {
         
         var bodyText: String = "\(city.name)\n"
@@ -111,8 +115,10 @@ private extension ViewController {
         bodyText.append("High: \(city.secondaryWeather.highTemperature)\n")
         bodyText.append("Low: \(city.secondaryWeather.lowTemperature)\n")
         if let v = city.visibility {
-            bodyText.append("Humidity: \(v)%")
+            bodyText.append("Humidity: \(v)%\n\n")
         }
+        bodyText.append("Sunrise: \(timeStringFromInt(number: city.systemInfo.sunrise))\n")
+        bodyText.append("Sunset: \(timeStringFromInt(number: city.systemInfo.sunset))\n")
         
         return bodyText
     }
@@ -136,6 +142,16 @@ private extension ViewController {
             completion(image)
             return
         }
+    }
+    
+    func timeStringFromInt(number: Int) -> String {
+        
+        let formatter: DateFormatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .medium
+        
+        return formatter.string(from: Date(timeIntervalSince1970: (Double(number))))
+        
     }
 }
 

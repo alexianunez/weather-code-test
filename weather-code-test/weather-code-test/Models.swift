@@ -17,6 +17,7 @@ struct City {
     var weather: [Weather] = []
     let secondaryWeather: SecondaryWeather
     let systemInfo: WeatherSystemInfo
+    let coordinates: CityCoordinates
 }
 
 struct Weather {
@@ -39,6 +40,11 @@ struct WeatherSystemInfo {
     let sunset: Int
 }
 
+struct CityCoordinates {
+    let latitude: Double
+    let longitude: Double
+}
+
 extension City {
     
     private enum Keys: String {
@@ -48,6 +54,7 @@ extension City {
         case visibility
         case main
         case sys
+        case coord
     }
     
     init?(serialization: Serialization) {
@@ -58,7 +65,10 @@ extension City {
             let secondaryWeatherJson = serialization[Keys.main.rawValue] as? Serialization,
             let secondaryWeather = SecondaryWeather(serialization: secondaryWeatherJson),
             let systemInfo = serialization[Keys.sys.rawValue] as? Serialization,
-            let system = WeatherSystemInfo(serialization: systemInfo)
+            let system = WeatherSystemInfo(serialization: systemInfo),
+            let coords = serialization[Keys.coord.rawValue] as? Serialization,
+            let cityCoords = CityCoordinates(serialization: coords)
+        
             else {
                 return nil
         }
@@ -66,6 +76,7 @@ extension City {
         self.id = cityId
         self.secondaryWeather = secondaryWeather
         self.systemInfo = system
+        self.coordinates = cityCoords
         
         if let v = serialization[Keys.visibility.rawValue] as? Int {
             self.visibility = v
@@ -151,6 +162,24 @@ extension WeatherSystemInfo {
         self.id = id
         self.sunrise = sunrise
         self.sunset = sunset
+    }
+}
+
+extension CityCoordinates {
+    private enum Keys: String {
+        case lat
+        case lon
+    }
+    
+    init?(serialization: Serialization) {
+        guard
+            let lat = serialization[Keys.lat.rawValue] as? Double,
+            let lon = serialization[Keys.lon.rawValue] as? Double
+                else {
+                    return nil
+        }
+        self.latitude = lat
+        self.longitude = lon
     }
     
 }
