@@ -55,14 +55,13 @@ struct RestClient {
             }
             
             guard
-                let unwrappedData = data,
-                let result = try? self.parser.parseData(data: unwrappedData)
+                let unwrappedData = data
                 else {
                     completion((nil, RestClientError.NoData))
                     return
             }
             
-            completion((result, nil))
+            completion((unwrappedData, nil))
         }
         task.resume()
         

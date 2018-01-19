@@ -28,6 +28,7 @@ typealias DatasourceResponse = (City?, Error?)
 struct Datasource {
     
     private let restClient = RestClient()
+    private let parser = Parser()
     internal let cityKey = "cityKey"
     
     func fetchData(searchTerm: String, completion: @escaping (DatasourceResponse) -> ()) -> Void {
@@ -38,15 +39,17 @@ struct Datasource {
         }
         
         restClient.fetchData(searchTerm: searchTerm) { (response) in
-            guard response.1 == nil else {
+            guard let data = response.0 as? Data, response.1 == nil else {
                 completion((nil, response.1))
                 return
             }
-            guard
-                let city = response.0 as? City else {
+            
+            guard let cityData = try? self.parser.parseData(data: data), let city = cityData as? City
+                else {
                     completion((nil, DatasourceError.NoData))
                     return
             }
+            
             self.persistLastSearch(city: city)
             completion((city, nil))
         }

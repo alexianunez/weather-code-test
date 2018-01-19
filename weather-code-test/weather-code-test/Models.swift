@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias Serialization = [String: Any]
+
 struct City {
     let name: String
     let id: Int
@@ -40,7 +42,7 @@ extension City {
         case main
     }
     
-    init?(jsonData: [String: Any]) {
+    init?(jsonData: Serialization) {
         guard
             let cityName = jsonData[Keys.name.rawValue] as? String,
             let cityId = jsonData[Keys.id.rawValue] as? Int,
@@ -78,7 +80,7 @@ extension Weather {
         case icon
     }
 
-    init?(jsonData: [String: Any]) {
+    init?(jsonData: Serialization) {
         guard
             let id = jsonData[Keys.id.rawValue] as? Int,
             let shortDesc = jsonData[Keys.shortDesc.rawValue] as? String,
@@ -103,7 +105,7 @@ extension SecondaryWeather {
         case highTemperature = "temp_max"
     }
     
-    init?(jsonData: [String: Any]) {
+    init?(jsonData: Serialization) {
         guard
             let humidity = jsonData[Keys.humidity.rawValue] as? Int,
             let currentTemp = jsonData[Keys.currentTemp.rawValue] as? Float,
