@@ -16,6 +16,7 @@ struct City {
     var visibility: Int?
     var weather: [Weather] = []
     let secondaryWeather: SecondaryWeather
+    let systemInfo: WeatherSystemInfo
 }
 
 struct Weather {
@@ -32,6 +33,12 @@ struct SecondaryWeather {
     let highTemperature: Float
 }
 
+struct WeatherSystemInfo {
+    let id: Int
+    let sunrise: Int
+    let sunset: Int
+}
+
 extension City {
     
     private enum Keys: String {
@@ -40,28 +47,32 @@ extension City {
         case weather
         case visibility
         case main
+        case sys
     }
     
-    init?(jsonData: Serialization) {
+    init?(serialization: Serialization) {
         guard
-            let cityName = jsonData[Keys.name.rawValue] as? String,
-            let cityId = jsonData[Keys.id.rawValue] as? Int,
-            let weatherJson = jsonData[Keys.weather.rawValue] as? [[String: Any]],
-            let secondaryWeatherJson = jsonData[Keys.main.rawValue] as? [String: Any],
-            let secondaryWeather = SecondaryWeather(jsonData: secondaryWeatherJson)
+            let cityName = serialization[Keys.name.rawValue] as? String,
+            let cityId = serialization[Keys.id.rawValue] as? Int,
+            let weatherJson = serialization[Keys.weather.rawValue] as? [[String: Any]],
+            let secondaryWeatherJson = serialization[Keys.main.rawValue] as? Serialization,
+            let secondaryWeather = SecondaryWeather(serialization: secondaryWeatherJson),
+            let systemInfo = serialization[Keys.sys.rawValue] as? Serialization,
+            let system = WeatherSystemInfo(serialization: systemInfo)
             else {
                 return nil
         }
         self.name = cityName
         self.id = cityId
         self.secondaryWeather = secondaryWeather
+        self.systemInfo = system
         
-        if let v = jsonData[Keys.visibility.rawValue] as? Int {
+        if let v = serialization[Keys.visibility.rawValue] as? Int {
             self.visibility = v
         }
         
         let _ = weatherJson.map { (weatherInfo) in
-            if let weatherStruct = Weather(jsonData: weatherInfo) {
+            if let weatherStruct = Weather(serialization: weatherInfo) {
                 self.weather.append(weatherStruct)
             }
         }
@@ -80,12 +91,12 @@ extension Weather {
         case icon
     }
 
-    init?(jsonData: Serialization) {
+    init?(serialization: Serialization) {
         guard
-            let id = jsonData[Keys.id.rawValue] as? Int,
-            let shortDesc = jsonData[Keys.shortDesc.rawValue] as? String,
-            let detailDesc = jsonData[Keys.detailDesc.rawValue] as? String,
-            let icon = jsonData[Keys.icon.rawValue] as? String
+            let id = serialization[Keys.id.rawValue] as? Int,
+            let shortDesc = serialization[Keys.shortDesc.rawValue] as? String,
+            let detailDesc = serialization[Keys.detailDesc.rawValue] as? String,
+            let icon = serialization[Keys.icon.rawValue] as? String
             else {
                 return nil
         }
@@ -105,12 +116,12 @@ extension SecondaryWeather {
         case highTemperature = "temp_max"
     }
     
-    init?(jsonData: Serialization) {
+    init?(serialization: Serialization) {
         guard
-            let humidity = jsonData[Keys.humidity.rawValue] as? Int,
-            let currentTemp = jsonData[Keys.currentTemp.rawValue] as? Float,
-            let highTemp = jsonData[Keys.highTemperature.rawValue] as? Float,
-            let lowTemp = jsonData[Keys.lowTemperature.rawValue] as? Float
+            let humidity = serialization[Keys.humidity.rawValue] as? Int,
+            let currentTemp = serialization[Keys.currentTemp.rawValue] as? Float,
+            let highTemp = serialization[Keys.highTemperature.rawValue] as? Float,
+            let lowTemp = serialization[Keys.lowTemperature.rawValue] as? Float
             else {
                 return nil
         }
@@ -120,7 +131,27 @@ extension SecondaryWeather {
         self.lowTemperature = lowTemp
         
     }
+}
+
+extension WeatherSystemInfo {
+    private enum Keys: String {
+        case sunrise
+        case sunset
+        case id
+    }
     
+    init?(serialization: Serialization) {
+        guard
+            let id = serialization[Keys.id.rawValue] as? Int,
+            let sunrise = serialization[Keys.sunrise.rawValue] as? Int,
+            let sunset = serialization[Keys.sunset.rawValue] as? Int
+            else {
+                return nil
+        }
+        self.id = id
+        self.sunrise = sunrise
+        self.sunset = sunset
+    }
     
 }
 

@@ -28,10 +28,14 @@ struct Parser {
         
         guard
             let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
-            let jsonDict = json as? [String: AnyObject],
-            let cityData = City(jsonData: jsonDict)
+            let jsonDict = json as? Serialization,
+            let cityData = City(serialization: jsonDict)
             else {
                 throw ParserError.MalformedData
+        }
+        
+        if let str = String.init(data: data, encoding: .utf8) {
+            print(str)
         }
         
         return cityData
