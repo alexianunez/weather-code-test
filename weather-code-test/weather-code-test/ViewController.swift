@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class ViewController: UIViewController {
     
@@ -15,6 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var cityInfoLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var map: MKMapView!
     
     fileprivate let datasource: Datasource = Datasource()
     
@@ -74,6 +76,7 @@ private extension ViewController {
         DispatchQueue.main.async { [weak self] in
             self?.cityInfoLabel.text = self?.createCityInfoText(city: city)
             self?.temperatureLabel.text = self?.createTemperatureText(city: city)
+            self?.focusMapToCity(city: city)
             self?.fetchWeatherImage(city: city, completion: { (image) in
                 if let img = image {
                     DispatchQueue.main.async {
@@ -144,6 +147,10 @@ private extension ViewController {
         }
     }
     
+    func focusMapToCity(city: City) {
+        map.setRegion(regionForCoordinates(latitude: city.coordinates.latitude, longitude: city.coordinates.longitude), animated: true)
+    }
+    
     func timeStringFromInt(number: Int) -> String {
         
         let formatter: DateFormatter = DateFormatter()
@@ -152,6 +159,15 @@ private extension ViewController {
         
         return formatter.string(from: Date(timeIntervalSince1970: (Double(number))))
         
+    }
+    
+    func regionForCoordinates(latitude: Double, longitude: Double) -> MKCoordinateRegion{
+        var region = MKCoordinateRegion()
+        region.center.latitude = latitude
+        region.center.longitude = longitude
+        region.span.latitudeDelta = 0.1
+        region.span.longitudeDelta = 0.1
+        return region
     }
 }
 
